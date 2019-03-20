@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="AddInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="kullaniciAdi" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="macAdres" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="durum" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UserDetails" type="tns:UserDetails" />
+      <s:complexType name="UserDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:AddInfo" />
+  </wsdl:message>
+  <wsdl:message name="AddInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:AddInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddInfoUserDetails">
+    <wsdl:part name="UserDetails" element="tns:UserDetails" />
+  </wsdl:message>
+  <wsdl:portType name="AddLoginInfoSoap">
+    <wsdl:operation name="AddInfo">
+      <wsdl:input message="tns:AddInfoSoapIn" />
+      <wsdl:output message="tns:AddInfoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AddLoginInfoSoap" type="tns:AddLoginInfoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddInfo">
+      <soap:operation soapAction="http://tempuri.org/AddInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddInfoUserDetails" part="UserDetails" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="AddLoginInfoSoap12" type="tns:AddLoginInfoSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddInfo">
+      <soap12:operation soapAction="http://tempuri.org/AddInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddInfoUserDetails" part="UserDetails" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AddLoginInfo">
+    <wsdl:port name="AddLoginInfoSoap" binding="tns:AddLoginInfoSoap">
+      <soap:address location="http://cslab.sakarya.edu.tr/AddLoginInfo.asmx" />
+    </wsdl:port>
+    <wsdl:port name="AddLoginInfoSoap12" binding="tns:AddLoginInfoSoap12">
+      <soap12:address location="http://cslab.sakarya.edu.tr/AddLoginInfo.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
